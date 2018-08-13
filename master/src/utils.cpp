@@ -196,6 +196,7 @@ unsigned long long Utils::decstr_to_uint(std::string str) {
 }
 
 AccessType Utils::string_to_access_type(std::string str) {
+	std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 	if (str == "ro") {
 		return AccessType::read_only;
 	} else if (str == "wo") {
