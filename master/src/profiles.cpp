@@ -76,6 +76,15 @@ namespace kaco {
 						device.execute("unset_controlword_flag","controlword_pp_new_set_point");
 						return Value();
 					}
+				},
+				{
+					"set_target_velocity",
+					[](Device& device,const Value& target_velocity) -> Value {
+						DEBUG_LOG("Set target vel to "<<target_velocity);
+						std::cout << "Set target vel to "<<target_velocity;
+						device.set_entry("Target velocity", target_velocity);
+						return Value();
+					}
 				}
 			}
 		}
@@ -92,6 +101,9 @@ namespace kaco {
 				{ "torque_profile_mode",		static_cast<int8_t>(4) },
 				{ "homing_mode",				static_cast<int8_t>(6) },
 				{ "interpolated_position_mode",	static_cast<int8_t>(7) },
+				{ "cyclic_synchronous_position_mode",	static_cast<int8_t>(8) },
+				{ "cyclic_synchronous_velocity_mode",	static_cast<int8_t>(9) },
+				{ "cyclic_synchronous_torque_mode",	static_cast<int8_t>(10) },
 
 				// control word flags general
 				{ "controlword_switch_on",			static_cast<uint16_t>(1<<0) },
@@ -112,15 +124,15 @@ namespace kaco {
 				{ "controlword_vl_rfg_enable",	static_cast<uint16_t>(1<<4) },
 				{ "controlword_vl_rfg_unlock",	static_cast<uint16_t>(1<<5) },
 				{ "controlword_vl_use_ref",		static_cast<uint16_t>(1<<6) },
-				
+
 				// control word flags profile position mode specific
 				{ "controlword_pp_new_set_point",				static_cast<uint16_t>(1<<4) },
 				{ "controlword_pp_change_set_immediately",		static_cast<uint16_t>(1<<5) },
 				{ "controlword_pp_abs_rel",						static_cast<uint16_t>(1<<6) },
-				
+
 				// control word flags homing mode specific
 				{ "controlword_hm_operation_start",	static_cast<uint16_t>(1<<4) },
-				
+
 				// control word flags interpolated position mode specific
 				{ "controlword_ip_enable_ip_mode",	static_cast<uint16_t>(1<<4) },
 
@@ -136,6 +148,7 @@ namespace kaco {
 				{ "statusword_remote",					static_cast<uint16_t>(1<<9) },
 				{ "statusword_target_reached",			static_cast<uint16_t>(1<<10) },
 				{ "statusword_internal_limit_active",	static_cast<uint16_t>(1<<11) },
+				{ "statusword_drive_follows_command",	static_cast<uint16_t>(1<<12) },
 
 				// status word flags manufacturer specific
 				{ "statusword_manufacturer_8",	static_cast<uint16_t>(1<<8) },
@@ -145,15 +158,15 @@ namespace kaco {
 				// status word flags profile position mode specific
 				{ "statusword_pp_set_point_acknowledge",	static_cast<uint16_t>(1<<12) },
 				{ "statusword_pp_following_error",			static_cast<uint16_t>(1<<13) },
-				
+
 				// status word flags profile velocity mode specific
 				{ "statusword_pv_speed",				static_cast<uint16_t>(1<<12) },
 				{ "statusword_pv_max_slippage_error",	static_cast<uint16_t>(1<<13) },
-				
+
 				// status word flags homing mode specific
 				{ "statusword_hm_homing_attained",	static_cast<uint16_t>(1<<12) },
 				{ "statusword_hm_homing_error",		static_cast<uint16_t>(1<<13) },
-				
+
 				// status word flags interpolated position mode specific
 				{ "statusword_ip_ip_mode_active",	static_cast<uint16_t>(1<<12) }
 			}
