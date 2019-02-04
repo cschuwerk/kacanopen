@@ -156,6 +156,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/core/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/master/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/ros_bridge/include)
 
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include/)
 
 ### Installation ###
 
@@ -180,8 +181,11 @@ macro(kacanopen_install)
 			RUNTIME DESTINATION bin
 		)
 		if (${ARGV1})
-			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include
-				DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+			# Clemens: ugly: header files are installed in the global directory
+			# but this is necessary to follow kacanopen's naming convention
+			install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/include/
+				DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
+				FILES_MATCHING PATTERN "*.h"
 			)
 			endif()
 	endif()
